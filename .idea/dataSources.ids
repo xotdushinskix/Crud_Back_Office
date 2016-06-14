@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - m2m@localhost" uuid="caacffdf-acad-472a-8cc1-1b9ecf4afe22">
+    <database-info product="MySQL" version="5.5.49" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="m2m"/>
+    <table name="order_final" schema="" catalog="m2m" type="TABLE">
+      <column name="order_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <primary-key name="PRIMARY" columns="order_id"/>
+      <exported-key name="FK9fasd87tlbrph8qrmj06d8xg0" table="user_products" schema="" catalog="m2m" columns="order_id"/>
+    </table>
+    <table name="product_m2m" schema="" catalog="m2m" type="TABLE">
+      <column name="product_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="product_brand" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="product_mpn" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="product_model" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="stock" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="product_id"/>
+      <exported-key name="FKesgbdo462qigma8v3frlht95s" table="user_products" schema="" catalog="m2m" columns="product_id"/>
+      <index name="UK_a2lfynrwv2appmfjbpn1is9xv" unique="true" columns="product_mpn"/>
+    </table>
+    <table name="user_m2m" schema="" catalog="m2m" type="TABLE">
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="firts_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="last_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="login" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="shop_experience" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_id"/>
+      <exported-key name="FK8sw80aosfryokc2er3uvycbhj" table="user_products" schema="" catalog="m2m" columns="user_id"/>
+      <index name="UK_j1je2ykjue5m7dr7rkklvak79" unique="true" columns="login"/>
+    </table>
+    <table name="user_products" schema="" catalog="m2m" type="TABLE">
+      <column name="user_product_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="bought_quantity" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="order_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="product_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_product_id"/>
+      <foreign-key name="FK8sw80aosfryokc2er3uvycbhj" columns="user_id" ref-table="user_m2m" ref-schema="" ref-catalog="m2m" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK9fasd87tlbrph8qrmj06d8xg0" columns="order_id" ref-table="order_final" ref-schema="" ref-catalog="m2m" ref-columns="order_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKesgbdo462qigma8v3frlht95s" columns="product_id" ref-table="product_m2m" ref-schema="" ref-catalog="m2m" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK8sw80aosfryokc2er3uvycbhj" unique="false" columns="user_id"/>
+      <index name="FK9fasd87tlbrph8qrmj06d8xg0" unique="false" columns="order_id"/>
+      <index name="FKesgbdo462qigma8v3frlht95s" unique="false" columns="product_id"/>
+    </table>
+  </data-source>
+</component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Crud_Back_Office:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="com.back_office.war">
+      <element id="artifact" artifact-name="Crud_Back_Office:war exploded" />
+    </root>
+  </artifact>
+</component>
