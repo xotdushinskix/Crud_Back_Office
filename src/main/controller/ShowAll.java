@@ -23,15 +23,18 @@ import java.util.List;
  * Created by FromxSoul on 07.06.2016.
  */
 @SuppressWarnings("Since15")
-@WebServlet("/ShowAll")
+@WebServlet("/main/operation")
 public class ShowAll extends Forward {
 
-    private static String SHOW_ALL = "/allUserProduct.jsp";
     private static String ADD_EDIT_USER_PAGE = "/editAndAddUser.jsp";
     private static String ADD_EDIT_PRODUCT_PAGE = "/editAndADDProduct.jsp";
     private static String MAKE_PURCHASE = "/makePurchase.jsp";
     private static String SHOW_PURCHASE = "/showPurchase.jsp";
     private static String CHANGE_ORDER = "/changeProdQuantityInOrder.jsp";
+    private static String CONFIRM_DELETE_PRODUCT = "/confirmDeleteProduct.jsp";
+    private static String CONFIRM_DELETE_USER = "/confirmDeleteUser.jsp";
+    private static String CHANGE_SHIP_STATUS = "/changeShipStatus.jsp";
+    private static String ORDER_LINES = "/orderLines.jsp";
     private Fabric fabric = Fabric.getInstance();
     private UserDao userDao = fabric.getUserDao();
     private ProductDao productDao = fabric.getProductDao();
@@ -46,15 +49,7 @@ public class ShowAll extends Forward {
         HibernateUtil.getSessionFactory();
         String forwardString = null;
         String action = request.getParameter("action");
-        if (action.equals("showAllUserAndProduct")) {
-            try {
-                super.requestAction(request);
-                forwardString = SHOW_ALL;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        } else if (action.equals("updateUser")) {
+        if (action.equals("updateUser")) {
             int userId = Integer.parseInt(request.getParameter("userId"));
             try {
                 user = userDao.getUser(userId);
@@ -66,13 +61,8 @@ public class ShowAll extends Forward {
 
         } else if (action.equals("deleteUser")) {
             int userId = Integer.parseInt(request.getParameter("userId"));
-            try {
-                userDao.deleteUser(userDao.getUser(userId));
-                super.requestAction(request);
-                forwardString = SHOW_ALL;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            request.setAttribute("userId", userId);
+            forwardString = CONFIRM_DELETE_USER;
 
         } else if (action.equals("addUser")) {
             forwardString = ADD_EDIT_USER_PAGE; //if add new user
@@ -89,13 +79,8 @@ public class ShowAll extends Forward {
 
         } else if (action.equals("deleteProduct")) {
             int productId = Integer.parseInt(request.getParameter("productId"));
-            try {
-                productDao.deleteProduct(productDao.getProduct(productId));
-                super.requestAction(request);
-                forwardString = SHOW_ALL;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            request.setAttribute("productId", productId);
+            forwardString = CONFIRM_DELETE_PRODUCT;
 
         } else if (action.equals("addProduct")) {
             forwardString = ADD_EDIT_PRODUCT_PAGE;
@@ -189,6 +174,18 @@ public class ShowAll extends Forward {
                 e.printStackTrace();
             }
             forwardString = CHANGE_ORDER;
+
+        } else if (action.equals("changeShipStatus")) {
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            request.setAttribute("orderId", orderId);
+            forwardString = CHANGE_SHIP_STATUS;
+        } else if (action.equals("orderLine")) {
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            Criteria criteria = HibernateUtil.getSessionFactory().openSession().createCriteria(UserProducts.class)
+                    .add(Restrictions.eq("order.orderId", orderId));
+            List<UserProducts> orderLines = criteria.list();
+            request.setAttribute("orderLines", orderLines);
+            forwardString = ORDER_LINES;
         }
 
         super.forward(forwardString, request, response);

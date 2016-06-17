@@ -1,13 +1,7 @@
 package fabric;
 
-import dao.OrderDao;
-import dao.ProductDao;
-import dao.UserDao;
-import dao.UserProductsDao;
-import dao_impl.OrderDaoImpl;
-import dao_impl.ProductDaoImpl;
-import dao_impl.UserDaoImpl;
-import dao_impl.UserProductsDaoImpl;
+import dao.*;
+import dao_impl.*;
 
 /**
  * Created by FromxSoul on 07.06.2016.
@@ -18,6 +12,7 @@ public class Fabric {
     private static ProductDao productDao = null;
     private static UserProductsDao userProductsDao = null;
     private static OrderDao orderDao = null;
+    private static AdminDao adminDao = null;
     private static Fabric instance = null;
 
     public static synchronized Fabric getInstance() {
@@ -57,6 +52,14 @@ public class Fabric {
             orderDao = new OrderDaoImpl();
         }
         return orderDao;
+    }
+
+
+    public static synchronized AdminDao getAdminDao() {
+        if (adminDao == null) {
+            adminDao = new AdminDaoImpl();
+        }
+        return adminDao;
     }
 
 

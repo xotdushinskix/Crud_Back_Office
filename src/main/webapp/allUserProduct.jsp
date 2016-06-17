@@ -20,7 +20,6 @@
     <th>Shop Experience</th>
     <th>Update</th>
     <th>Delete</th>
-    <th>Purchases</th>
   </tr>
   </thead>
   <tbody>
@@ -30,9 +29,8 @@
       <td>${user1.firstName}</td>
       <td>${user1.lastName}</td>
       <td>${user1.shopExperience}</td>
-      <td><a href="ShowAll?action=updateUser&userId=<c:out value="${user1.userId}"/>">Update</a></td>
-      <td><a href="ShowAll?action=deleteUser&userId=<c:out value="${user1.userId}"/>">Delete</a></td>
-      <td><a href="ShowAll?action=watchUserPurchases&userId=<c:out value="${user1.userId}"/>">Show</a></td>
+      <td><a href="main/operation?action=updateUser&userId=<c:out value="${user1.userId}"/>">Update</a></td>
+      <td><a href="main/operation?action=deleteUser&userId=<c:out value="${user1.userId}"/>">Delete</a></td>
     </tr>
   </c:forEach>
   </tbody>
@@ -40,7 +38,7 @@
 
 
 
-<p><a href="ShowAll?action=addUser">Add User</a></p>
+<p><a href="main/operation?action=addUser">Add User</a></p>
 <br>
 
 <h3>All products list:</h3>
@@ -54,7 +52,6 @@
     <th>MPN</th>
     <th>Update</th>
     <th>Delete</th>
-    <th>Add to cart</th>
   </tr>
   </thead>
   <tbody>
@@ -65,13 +62,70 @@
       <td>${product1.productModel}</td>
       <td>${product1.productStock}</td>
       <td>${product1.productMPN}</td>
-      <td><a href="ShowAll?action=updateProduct&productId=<c:out value="${product1.productId}"/>">Update</a></td>
-      <td><a href="ShowAll?action=deleteProduct&productId=<c:out value="${product1.productId}"/>">Delete</a></td>
-      <td><a href="ShowAll?action=purchase&productId=<c:out value="${product1.productId}"/>">To cart</a></td>
+      <td><a href="main/operation?action=updateProduct&productId=<c:out value="${product1.productId}"/>">Update</a></td>
+      <td><a href="main/operation?action=deleteProduct&productId=<c:out value="${product1.productId}"/>">Delete</a></td>
     </tr>
   </c:forEach>
   </tbody>
 </table>
-<p><a href="ShowAll?action=addProduct">Add Product</a></p>
+<p><a href="main/operation?action=addProduct">Add Product</a></p>
+
+
+
+<h3>Order id:</h3>
+<table border="2">
+  <thead>
+  <tr>
+    <th>Order Id</th>
+    <th>Created Date</th>
+    <th>Order lines</th>
+    <th>Change Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <c:forEach items="${ordersDNShip}" var="order">
+    <tr>
+      <td>${order.orderId}</td>
+      <td>${order.currentData}</td>
+      <td><a href="main/operation?action=orderLine&orderId=<c:out value="${order.orderId}"/>">Show</a></td>
+      <td><a href="main/operation?action=changeShipStatus&orderId=<c:out value="${order.orderId}"/>">Change</a></td>
+    </tr>
+  </c:forEach>
+  </tbody>
+</table>
+
+
+
+<h3>Shipped order id:</h3>
+<table border="2">
+  <thead>
+  <tr>
+    <th>Order Id</th>
+    <th>Created Date</th>
+    <th>Order lines</th>
+    <%--<th>Ship Status</th>--%>
+    <%--<th>Change Status</th>--%>
+  </tr>
+  </thead>
+  <tbody>
+  <c:forEach items="${ordersShip}" var="orderS">
+    <tr>
+      <td>${orderS.orderId}</td>
+      <td>${orderS.currentData}</td>
+      <td><a href="main/operation?action=orderLine&orderId=<c:out value="${orderS.orderId}"/>">Show</a></td>
+      <%--<td>${orderS.shipStatus}</td>--%>
+    </tr>
+  </c:forEach>
+  </tbody>
+</table>
+
+
+
+
+<%--<form action="ForA", method="post">--%>
+  <%--<input type="submit" value="Logout" name="logout" style="position: absolute; top: 0; right: 0;">--%>
+<%--</form>--%>
+<jsp:include page="logout.html" />
+
 </body>
 </html>

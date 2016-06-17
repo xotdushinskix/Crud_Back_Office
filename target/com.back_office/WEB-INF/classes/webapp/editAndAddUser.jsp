@@ -13,7 +13,7 @@
   <title>Add or edit user</title>
 </head>
 <body>
-<form action="AddEdit" method="post">
+<form action="/AddEdit" method="post">
   User ID : <input type="text" readonly="readonly" name="userIdAddEditPage" value="<c:out value="${user.userId}" />" />
   <br/>
   First Name : <input type="text" name="firstname" value="<c:out value="${user.firstName}" />" />
@@ -25,6 +25,7 @@
   <input type="submit" value="Submit" name="addEditUser"/>
 </form>
 <br>
-<td><a href="ShowAll?action=showAllUserAndProduct">Back To Main Page</a></td>
+<a href="/main">Back To Main Page</a>
+<jsp:include page="logout.html" />
 </body>
 </html>

@@ -6,6 +6,7 @@ import table.Order;
 import util.HibernateUtil;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by FromxSoul on 07.06.2016.
@@ -44,6 +45,43 @@ public class OrderDaoImpl implements OrderDao {
             }
         }
 
+    }
+
+
+
+    public void editOrder(Order order) throws SQLException {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(order);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+    }
+
+
+
+    public List<Order> getAllOrders() throws SQLException {
+        List<Order> orders = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            orders = session.createCriteria(Order.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+        return orders;
     }
 
 }

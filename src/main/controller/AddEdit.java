@@ -1,8 +1,10 @@
 package controller;
 
+import dao.OrderDao;
 import dao.ProductDao;
 import dao.UserDao;
 import fabric.Fabric;
+import table.Order;
 import table.Product;
 import table.User;
 
@@ -20,12 +22,14 @@ import java.sql.SQLException;
 @WebServlet("/AddEdit")
 public class AddEdit extends Forward {
 
-    private static String SHOW_ALL = "/allUserProduct.jsp";
+    private static String SHOW_ALL = "/main"; //"/allUserProduct.jsp";
     private Fabric fabric = Fabric.getInstance();
     private UserDao userDao = fabric.getUserDao();
     private ProductDao productDao = fabric.getProductDao();
+    private OrderDao orderDao = fabric.getOrderDao();
     private Product product = new Product();
     private User user = new User();
+    private Order order;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -94,7 +98,30 @@ public class AddEdit extends Forward {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+
+
+        } else if (request.getParameter("ship_status") != null) {
+            if (request.getParameter("shipped") != null) {
+                int orderId = Integer.parseInt(request.getParameter("orderId"));
+                try {
+                    order = orderDao.getOrderById(orderId);
+                    order.setShipStatus(true);
+                    orderDao.editOrder(order);
+                    super.requestAction(request);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    super.requestAction(request);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        super.forward(SHOW_ALL, request, response);
+
+        response.sendRedirect(SHOW_ALL);
+        //super.forward(SHOW_ALL, request, response);
     }
 }
