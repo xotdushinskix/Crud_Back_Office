@@ -179,6 +179,7 @@ public class ShowAll extends Forward {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             request.setAttribute("orderId", orderId);
             forwardString = CHANGE_SHIP_STATUS;
+
         } else if (action.equals("orderLine")) {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             Criteria criteria = HibernateUtil.getSessionFactory().openSession().createCriteria(UserProducts.class)
